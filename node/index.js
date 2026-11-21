@@ -8,7 +8,7 @@ const server = http.createServer();
 
 const io = new Server(server,{
     cors:{
-        origin:"http://127.0.0.1:5500"
+        origin:"*"
     }
 });
 
@@ -26,6 +26,8 @@ io.on('connection',socket=>{
 
 }) 
 
-server.listen(8000,()=>{
-    console.log("Back end server running at 8000");
-})
+const PORT = process.env.PORT || 8000;
+
+server.listen(PORT, "0.0.0.0", () => {
+    console.log(`Backend running on port ${PORT}`);
+});

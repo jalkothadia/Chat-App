@@ -17,8 +17,8 @@ body {
     display: flex;
     flex-direction: column;
     width: min(100% - 40px, 920px);
-    min-height: 100vh;
-    min-height: 100dvh;
+    height: 100vh;
+    height: 100dvh;
     margin: 0 auto;
     padding: 24px 0 22px;
     overflow: hidden;
@@ -60,17 +60,17 @@ nav::after {
 .container {
     position: relative;
     display: flex;
-    flex: 1 1 auto;
+    flex: 1 1 0;
     flex-direction: column;
     gap: 12px;
     width: 100%;
-    min-height: 260px;
-    max-height: 76vh;
-    max-height: 76dvh;
+    min-height: 0;
     margin: 0 auto 16px;
     padding: 26px clamp(14px, 4vw, 34px);
     overflow-x: hidden;
     overflow-y: auto;
+    overscroll-behavior: contain;
+    scroll-behavior: smooth;
     border: 1px solid #2b3038;
     border-radius: 18px;
     background: #171a20;
@@ -269,8 +269,6 @@ nav::after {
     }
 
     .container {
-        min-height: 180px;
-        max-height: none;
         margin-bottom: 12px;
         padding: 18px 13px;
         border-radius: 20px;
@@ -316,5 +314,9 @@ nav::after {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
+    }
+
+    .container {
+        scroll-behavior: auto;
     }
 }

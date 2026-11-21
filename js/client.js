@@ -1,4 +1,4 @@
-const socket = io('http://localhost:8000');
+const socket = io('http://192.168.0.130:8000');
 
 const form = document.getElementById('send-container');
 const messageInput = document.getElementById('messageInp');
@@ -58,6 +58,10 @@ const append = (message, position, senderName) => {
     }
 
     messageContainer.append(messageElement);
+    messageContainer.scrollTo({
+        top: messageContainer.scrollHeight,
+        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
+    });
 
 };
 
