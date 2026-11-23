@@ -1,9 +1,51 @@
-const socket = io('http://192.168.0.130:8000');
-
 const form = document.getElementById('send-container');
 const messageInput = document.getElementById('messageInp');
 const messageContainer = document.querySelector('.container');
+const nameModal = document.getElementById('name-modal');
+const nameForm = document.getElementById('name-form');
+const nameInput = document.getElementById('name-input');
 let audioContext;
+let socket = null;
+let socketLoaded = false;
+
+const connectSocket = () => {
+    if (!name1 || socketLoaded) return;
+    socketLoaded = true;
+
+    const socketProtocol = window.location.protocol === 'https:' ? 'https:' : 'http:';
+    const socketHostname = window.location.hostname || '127.0.0.1';
+    const socketPort = window.location.protocol === 'file:' ? '8000' : (
+        window.location.port && window.location.port !== '8000' ? '8000' : window.location.port
+    );
+    const socketHost = `${socketProtocol}//${socketHostname}${socketPort ? `:${socketPort}` : ''}`;
+    const startSocket = () => {
+        if (typeof io !== 'function') return;
+        socket = io(socketHost);
+
+        socket.on('connect', () => {
+            socket.emit('new-user-joined', name1);
+        });
+
+        socket.on('user-joined', (name) => {
+            append(`${name} Joined Chat`, 'center');
+        });
+
+        socket.on('receive', (data) => {
+            append(data.message, 'left', data.name);
+            playNotificationSound();
+        });
+    };
+
+    if (typeof io === 'function') {
+        startSocket();
+        return;
+    }
+
+    const socketScript = document.createElement('script');
+    socketScript.src = `${socketHost}/socket.io/socket.io.js`;
+    socketScript.onload = startSocket;
+    document.head.append(socketScript);
+};
 
 const unlockAudio = () => {
     if (!audioContext && 'AudioContext' in window) {
@@ -65,24 +107,28 @@ const append = (message, position, senderName) => {
 
 };
 
-// Get username
-const name1 = prompt("Enter your name:");
+let name1 = sessionStorage.getItem('chatDisplayName');
 
-socket.emit('new-user-joined', name1);
+const joinChat = (name) => {
+    name1 = name.trim();
+    if (!name1) return;
 
-// When another user joins
-socket.on('user-joined', (name) => {
+    sessionStorage.setItem('chatDisplayName', name1);
+    nameModal.classList.add('is-hidden');
+    connectSocket();
+    messageInput.focus();
+};
 
-    append(`${name} Joined Chat`, 'center');
+if (name1) {
+    joinChat(name1);
+} else {
+    nameModal.classList.remove('is-hidden');
+    window.requestAnimationFrame(() => nameInput.focus());
+}
 
-});
-
-// Receive message from another user
-socket.on('receive', (data) => {
-
-    append(data.message, 'left', data.name);
-    playNotificationSound();
-
+nameForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    joinChat(nameInput.value);
 });
 
 // Send message
@@ -95,7 +141,7 @@ form.addEventListener('submit', (e) => {
     if (!message) return;
 
     // Send message to server
-    socket.emit('send', message);
+    if (socket) socket.emit('send', message);
 
     // Display your own message
     append(message, 'right', 'You');

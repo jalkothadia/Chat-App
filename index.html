@@ -4,11 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ChatApp</title>
-    <script defer src="http://192.168.0.130:8000/socket.io/socket.io.js"></script>
     <script defer src="js/client.js"></script>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    <div class="name-modal" id="name-modal" role="dialog" aria-modal="true" aria-labelledby="name-title">
+        <form class="name-card" id="name-form" action="#">
+            <p class="eyebrow">JOIN THE CONVERSATION</p>
+            <h1 id="name-title">What should we call you?</h1>
+            <label for="name-input">Display name</label>
+            <input id="name-input" name="displayName" type="text" maxlength="60" autocomplete="name" required>
+            <button class="name-submit" type="submit">Continue to chat</button>
+        </form>
+    </div>
     <nav>
         <svg class="logo" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H6l-3 2v-7.5A7.5 7.5 0 0 1 10.5 6H12a8 8 0 0 1 8 5.5Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
