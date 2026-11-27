@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatApp</title>
+    <script defer src="js/client.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="name-modal" id="name-modal" role="dialog" aria-modal="true" aria-labelledby="name-title">
+        <form class="name-card" id="account-form" action="#">
+            <p class="eyebrow">CHATSPACE ACCOUNT</p>
+            <h1 id="name-title">Create your account</h1>
+            <div id="display-name-field">
+                <label for="name-input">Display name</label>
+                <input id="name-input" name="displayName" type="text" maxlength="60" autocomplete="name">
+            </div>
+            <label for="email-input">Email address</label>
+            <input id="email-input" name="email" type="email" maxlength="254" autocomplete="email" required>
+            <label for="password-input">Password</label>
+            <input id="password-input" name="password" type="password" minlength="8" maxlength="128" autocomplete="new-password" required>
+            <p class="form-error" id="account-error" role="alert" aria-live="polite"></p>
+            <button class="name-submit" id="account-submit" type="submit">Create account</button>
+            <button class="mode-toggle" id="mode-toggle" type="button">Already have an account? Sign in</button>
+        </form>
+    </div>
+    <nav>
+        <svg class="logo" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H6l-3 2v-7.5A7.5 7.5 0 0 1 10.5 6H12a8 8 0 0 1 8 5.5Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="8.5" cy="13" r="1" fill="currentColor"/>
+            <circle cx="12.5" cy="13" r="1" fill="currentColor"/>
+            <circle cx="16.5" cy="13" r="1" fill="currentColor"/>
+        </svg>
+        <div class="account-controls">
+            <span id="account-label"></span>
+            <button id="logout-button" type="button">Sign out</button>
+        </div>
+    </nav>
+    <div class="chat-layout">
+        <aside class="user-panel" aria-label="Users">
+            <div class="user-panel-heading">
+                <h1>People</h1>
+                <button id="refresh-users" type="button">Refresh</button>
+            </div>
+            <div class="user-list" id="user-list" aria-live="polite"></div>
+        </aside>
+        <main class="conversation-panel">
+            <header class="conversation-header">
+                <h1 id="conversation-title">Select a person to start chatting</h1>
+            </header>
+            <p class="form-error" id="chat-error" role="status" aria-live="polite"></p>
+            <div class="container" aria-live="polite"></div>
+            <div class="send">
+                <form action="#" id="send-container">
+                    <input type="text" name="messageInp" id="messageInp" maxlength="2000" placeholder="Select a user to start chatting" disabled>
+                    <button class="btn" type="submit" aria-label="Send message" title="Send message">
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
